@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "941164656793",
+    "project_id": "pantrysnap-e9dd6",
+    "storage_bucket": "pantrysnap-e9dd6.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:941164656793:android:cb93f04afbd0efa17d6008",
+        "android_client_info": {
+          "package_name": "com.example.pantrysnap"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "941164656793-amfjbac8q31lskks134n4n5ljsm37hjv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGuL4vGisKUSlVTAUDmWlih_Vd_6JcwT4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "941164656793-amfjbac8q31lskks134n4n5ljsm37hjv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
