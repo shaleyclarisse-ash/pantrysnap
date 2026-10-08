@@ -95,10 +95,10 @@ class RecipeCard extends StatelessWidget {
                   ),
                   Container(
                     padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                     decoration: BoxDecoration(
                       color: difficultyColor(recipe.difficulty, context)
-                          .withOpacity(0.15),
+                          .withValues(alpha: 0.15),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Text(
@@ -136,11 +136,11 @@ class RecipeCard extends StatelessWidget {
                   runSpacing: 6,
                   children: recipe.tags
                       .map((t) => Chip(
-                            label: Text(t, style: theme.textTheme.labelSmall),
-                            visualDensity: VisualDensity.compact,
-                            materialTapTargetSize:
-                                MaterialTapTargetSize.shrinkWrap,
-                          ))
+                    label: Text(t, style: theme.textTheme.labelSmall),
+                    visualDensity: VisualDensity.compact,
+                    materialTapTargetSize:
+                    MaterialTapTargetSize.shrinkWrap,
+                  ))
                       .toList(),
                 ),
               ],
@@ -163,7 +163,7 @@ class _InfoPill extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
-        color: theme.colorScheme.surfaceVariant,
+        color: theme.colorScheme.surfaceContainerHighest,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(

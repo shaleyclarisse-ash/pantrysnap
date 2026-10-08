@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'scan_screen.dart';
+import 'home_shell.dart';
 
 /// The app's only splash screen (no separate native OS-level splash).
 /// Shown as soon as Flutter boots: the logo pops in, settles, a loading
@@ -66,7 +66,7 @@ class _SplashScreenState extends State<SplashScreen>
       Navigator.of(context).pushReplacement(
         PageRouteBuilder(
           transitionDuration: const Duration(milliseconds: 500),
-          pageBuilder: (_, animation, __) => const ScanScreen(),
+          pageBuilder: (_, animation, __) => const HomeShell(),
           transitionsBuilder: (_, animation, __, child) =>
               FadeTransition(opacity: animation, child: child),
         ),

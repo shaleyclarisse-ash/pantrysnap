@@ -44,7 +44,7 @@ class AppTheme {
       surface: _creamBackground,
       surfaceContainerHighest: _creamSurfaceVariant,
       onSurface: _warmCharcoal,
-      onSurfaceVariant: _warmCharcoal.withOpacity(0.65),
+      onSurfaceVariant: _warmCharcoal.withValues(alpha: 0.65),
       outlineVariant: const Color(0xFFE3DCCF),
     );
 
@@ -66,7 +66,7 @@ class AppTheme {
       surface: _darkBackground,
       surfaceContainerHighest: _darkSurfaceVariant,
       onSurface: _warmCream,
-      onSurfaceVariant: _warmCream.withOpacity(0.65),
+      onSurfaceVariant: _warmCream.withValues(alpha: 0.65),
       outlineVariant: const Color(0xFF433F37),
     );
 
@@ -123,7 +123,7 @@ class AppTheme {
             ? Colors.white
             : colorScheme.surfaceContainerHighest,
         elevation: 0,
-        shadowColor: colorScheme.primary.withOpacity(0.08),
+        shadowColor: colorScheme.primary.withValues(alpha: 0.08),
         surfaceTintColor: Colors.transparent,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(24),
@@ -167,7 +167,7 @@ class AppTheme {
       chipTheme: base.chipTheme.copyWith(
         backgroundColor: colorScheme.surfaceContainerHighest,
         selectedColor: colorScheme.primaryContainer,
-        disabledColor: colorScheme.surfaceContainerHighest.withOpacity(0.5),
+        disabledColor: colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
         labelStyle: TextStyle(
           color: colorScheme.onSurface,
           fontWeight: FontWeight.w600,
@@ -183,7 +183,7 @@ class AppTheme {
 
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: colorScheme.surfaceContainerHighest.withOpacity(0.6),
+        fillColor: colorScheme.surfaceContainerHighest.withValues(alpha: 0.6),
         contentPadding:
         const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
         border: OutlineInputBorder(

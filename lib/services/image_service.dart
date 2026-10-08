@@ -40,16 +40,16 @@ class ImageService {
     }
 
     // Downscale further if the longest edge is still large, to keep the
-    // multimodal request light.
+    // multimodal request light (smaller upload + faster model processing).
     img.Image resized = decoded;
-    const maxEdge = 1280;
+    const maxEdge = 1024;
     if (decoded.width > maxEdge || decoded.height > maxEdge) {
       resized = decoded.width >= decoded.height
           ? img.copyResize(decoded, width: maxEdge)
           : img.copyResize(decoded, height: maxEdge);
     }
 
-    final jpegBytes = Uint8List.fromList(img.encodeJpg(resized, quality: 85));
+    final jpegBytes = Uint8List.fromList(img.encodeJpg(resized, quality: 80));
 
     return CapturedPantryImage(
       bytes: jpegBytes,

@@ -2,15 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../models/recipe.dart';
+import '../services/local_providers.dart';
 import '../services/pantry_provider.dart';
+import '../services/storage_service.dart';
 import '../widgets/recipe_card.dart';
+import 'cooking_mode_screen.dart';
+import 'recipe_assistant_screen.dart';
 
-class RecipeDetailScreen extends StatelessWidget {
+class RecipeDetailScreen extends StatefulWidget {
   final Recipe recipe;
   const RecipeDetailScreen({super.key, required this.recipe});
 
   @override
+  State<RecipeDetailScreen> createState() => _RecipeDetailScreenState();
+}
+
+class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // Auto-log every recipe that's opened, for Recipe History.
+    StorageService.instance.logHistory(widget.recipe);
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final recipe = widget.recipe;
     final theme = Theme.of(context);
     final provider = context.watch<PantryProvider>();
     final saved = provider.isRecipeSaved(recipe.id);
@@ -37,7 +54,8 @@ class RecipeDetailScreen extends StatelessWidget {
             children: [
               Chip(
                 avatar: const Icon(Icons.timer_outlined, size: 16),
-                label: Text('Prep ${recipe.prepTimeMinutes}m · Cook ${recipe.cookTimeMinutes}m'),
+                label: Text(
+                    'Prep ${recipe.prepTimeMinutes}m · Cook ${recipe.cookTimeMinutes}m'),
               ),
               Chip(
                 avatar: const Icon(Icons.restaurant_outlined, size: 16),
@@ -57,12 +75,46 @@ class RecipeDetailScreen extends StatelessWidget {
               runSpacing: 6,
               children: recipe.tags
                   .map((t) => Chip(
-                        label: Text(t),
-                        backgroundColor: theme.colorScheme.primaryContainer,
-                      ))
+                label: Text(t),
+                backgroundColor: theme.colorScheme.primaryContainer,
+              ))
                   .toList(),
             ),
           ],
+          const SizedBox(height: 20),
+          Row(
+            children: [
+              Expanded(
+                child: FilledButton.icon(
+                  icon: const Icon(Icons.restaurant_menu),
+                  label: const Text('Start Cooking'),
+                  onPressed: recipe.steps.isEmpty
+                      ? null
+                      : () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) =>
+                          CookingModeScreen(recipe: recipe),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: OutlinedButton.icon(
+                  icon: const Icon(Icons.chat_bubble_outline),
+                  label: const Text('Ask Assistant'),
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) =>
+                          RecipeAssistantScreen(recipe: recipe),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
           const SizedBox(height: 24),
           _SectionHeader(
               icon: Icons.check_circle_outline,
@@ -71,16 +123,39 @@ class RecipeDetailScreen extends StatelessWidget {
           ...recipe.ingredients.map((i) => _IngredientTile(ingredient: i)),
           if (recipe.missingIngredients.isNotEmpty) ...[
             const SizedBox(height: 20),
-            _SectionHeader(
-                icon: Icons.shopping_cart_outlined,
-                title: 'You may need to buy (${recipe.missingIngredients.length})',
-                color: theme.colorScheme.tertiary),
+            Row(
+              children: [
+                Expanded(
+                  child: _SectionHeader(
+                      icon: Icons.shopping_cart_outlined,
+                      title:
+                      'You may need to buy (${recipe.missingIngredients.length})',
+                      color: theme.colorScheme.tertiary),
+                ),
+                TextButton.icon(
+                  icon: const Icon(Icons.add_shopping_cart, size: 18),
+                  label: const Text('Add to list'),
+                  onPressed: () async {
+                    await context
+                        .read<ShoppingListProvider>()
+                        .addFromRecipe(recipe);
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                            content:
+                            Text('Added missing ingredients to your shopping list')),
+                      );
+                    }
+                  },
+                ),
+              ],
+            ),
             const SizedBox(height: 8),
             ...recipe.missingIngredients
                 .map((i) => _IngredientTile(ingredient: i, missing: true)),
           ],
           const SizedBox(height: 24),
-          _SectionHeader(icon: Icons.list_alt, title: 'Instructions'),
+          const _SectionHeader(icon: Icons.list_alt, title: 'Instructions'),
           const SizedBox(height: 8),
           ...recipe.steps.map((s) => _StepTile(step: s)),
           const SizedBox(height: 24),

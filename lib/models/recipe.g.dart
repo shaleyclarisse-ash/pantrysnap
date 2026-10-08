@@ -1,9 +1,10 @@
-// GENERATED CODE - manually written to match hive_generator output.
-// If you run `flutter pub run build_runner build --delete-conflicting-outputs`
-// this file will be regenerated automatically from the @HiveType annotations
-// in recipe.dart - either approach works.
+// GENERATED CODE - DO NOT MODIFY BY HAND
 
 part of 'recipe.dart';
+
+// **************************************************************************
+// TypeAdapterGenerator
+// **************************************************************************
 
 class IngredientAdapter extends TypeAdapter<Ingredient> {
   @override
@@ -18,7 +19,7 @@ class IngredientAdapter extends TypeAdapter<Ingredient> {
     return Ingredient(
       name: fields[0] as String,
       quantity: fields[1] as String,
-      isPantryStaple: fields[2] as bool? ?? false,
+      isPantryStaple: fields[2] as bool,
     );
   }
 
@@ -33,6 +34,16 @@ class IngredientAdapter extends TypeAdapter<Ingredient> {
       ..writeByte(2)
       ..write(obj.isPantryStaple);
   }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is IngredientAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }
 
 class RecipeStepModelAdapter extends TypeAdapter<RecipeStepModel> {
@@ -63,22 +74,16 @@ class RecipeStepModelAdapter extends TypeAdapter<RecipeStepModel> {
       ..writeByte(2)
       ..write(obj.durationMinutes);
   }
-}
-
-class DifficultyAdapter extends TypeAdapter<Difficulty> {
-  @override
-  final int typeId = 2;
 
   @override
-  Difficulty read(BinaryReader reader) {
-    final index = reader.readByte();
-    return Difficulty.values[index];
-  }
+  int get hashCode => typeId.hashCode;
 
   @override
-  void write(BinaryWriter writer, Difficulty obj) {
-    writer.writeByte(obj.index);
-  }
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is RecipeStepModelAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }
 
 class RecipeAdapter extends TypeAdapter<Recipe> {
@@ -103,7 +108,7 @@ class RecipeAdapter extends TypeAdapter<Recipe> {
       missingIngredients: (fields[8] as List).cast<Ingredient>(),
       steps: (fields[9] as List).cast<RecipeStepModel>(),
       tags: (fields[10] as List).cast<String>(),
-      savedAt: fields[11] as DateTime,
+      savedAt: fields[11] as DateTime?,
     );
   }
 
@@ -136,4 +141,58 @@ class RecipeAdapter extends TypeAdapter<Recipe> {
       ..writeByte(11)
       ..write(obj.savedAt);
   }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is RecipeAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}
+
+class DifficultyAdapter extends TypeAdapter<Difficulty> {
+  @override
+  final int typeId = 2;
+
+  @override
+  Difficulty read(BinaryReader reader) {
+    switch (reader.readByte()) {
+      case 0:
+        return Difficulty.easy;
+      case 1:
+        return Difficulty.medium;
+      case 2:
+        return Difficulty.hard;
+      default:
+        return Difficulty.easy;
+    }
+  }
+
+  @override
+  void write(BinaryWriter writer, Difficulty obj) {
+    switch (obj) {
+      case Difficulty.easy:
+        writer.writeByte(0);
+        break;
+      case Difficulty.medium:
+        writer.writeByte(1);
+        break;
+      case Difficulty.hard:
+        writer.writeByte(2);
+        break;
+    }
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is DifficultyAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }

@@ -18,24 +18,24 @@ class RecipeListScreen extends StatelessWidget {
       body: recipes.isEmpty
           ? const Center(child: Text('No recipes generated yet.'))
           : ListView.builder(
-              padding: const EdgeInsets.only(top: 8, bottom: 24),
-              itemCount: recipes.length,
-              itemBuilder: (context, index) {
-                final recipe = recipes[index];
-                return RecipeCard(
-                  recipe: recipe,
-                  isSaved: provider.isRecipeSaved(recipe.id),
-                  onToggleSave: () =>
-                      context.read<PantryProvider>().toggleSaveRecipe(recipe),
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => RecipeDetailScreen(recipe: recipe),
-                    ),
-                  ),
-                );
-              },
+        padding: const EdgeInsets.only(top: 8, bottom: 24),
+        itemCount: recipes.length,
+        itemBuilder: (context, index) {
+          final recipe = recipes[index];
+          return RecipeCard(
+            recipe: recipe,
+            isSaved: provider.isRecipeSaved(recipe.id),
+            onToggleSave: () =>
+                context.read<PantryProvider>().toggleSaveRecipe(recipe),
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => RecipeDetailScreen(recipe: recipe),
+              ),
             ),
+          );
+        },
+      ),
     );
   }
 }

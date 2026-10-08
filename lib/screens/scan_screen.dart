@@ -7,7 +7,8 @@ import '../services/auth_service.dart';
 import '../services/pantry_provider.dart';
 import '../widgets/filter_chips.dart';
 import 'loading_screen.dart';
-import 'saved_recipes_screen.dart';
+import 'meal_planner_screen.dart';
+import 'recipe_history_screen.dart';
 
 class ScanScreen extends StatelessWidget {
   const ScanScreen({super.key});
@@ -21,37 +22,20 @@ class ScanScreen extends StatelessWidget {
         title: const Text('PantrySnap'),
         actions: [
           IconButton(
-            icon: const Icon(Icons.bookmarks_outlined),
-            tooltip: 'Saved recipes',
+            icon: const Icon(Icons.history),
+            tooltip: 'History',
             onPressed: () => Navigator.push(
               context,
-              MaterialPageRoute(builder: (_) => const SavedRecipesScreen()),
+              MaterialPageRoute(builder: (_) => const RecipeHistoryScreen()),
             ),
           ),
           IconButton(
-            icon: const Icon(Icons.logout),
-            tooltip: 'Log out',
-            onPressed: () async {
-              final confirmed = await showDialog<bool>(
-                context: context,
-                builder: (context) => AlertDialog(
-                  title: const Text('Log out?'),
-                  actions: [
-                    TextButton(
-                      onPressed: () => Navigator.pop(context, false),
-                      child: const Text('Cancel'),
-                    ),
-                    FilledButton(
-                      onPressed: () => Navigator.pop(context, true),
-                      child: const Text('Log out'),
-                    ),
-                  ],
-                ),
-              );
-              if (confirmed == true) {
-                await AuthService.instance.signOut();
-              }
-            },
+            icon: const Icon(Icons.calendar_month_outlined),
+            tooltip: 'Meal planner',
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const MealPlannerScreen()),
+            ),
           ),
         ],
       ),
@@ -137,7 +121,8 @@ class ScanScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (_) => const LoadingScreen()),
+                          builder: (_) => const LoadingScreen(
+                              mode: LoadingMode.detectIngredients)),
                     );
                   },
                 ),
@@ -162,7 +147,7 @@ class _PhotoPreview extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
-          color: theme.colorScheme.surfaceVariant,
+          color: theme.colorScheme.surfaceContainerHighest,
           border: Border.all(color: theme.colorScheme.outlineVariant),
         ),
         clipBehavior: Clip.antiAlias,
@@ -188,7 +173,7 @@ class _PhotoPreview extends StatelessWidget {
               top: 8,
               right: 8,
               child: Material(
-                color: Colors.black.withOpacity(0.5),
+                color: Colors.black.withValues(alpha: 0.5),
                 shape: const CircleBorder(),
                 child: IconButton(
                   icon: const Icon(Icons.close, color: Colors.white),
