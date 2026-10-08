@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../services/auth_service.dart';
 import '../services/pantry_provider.dart';
 import '../widgets/filter_chips.dart';
 import 'loading_screen.dart';
@@ -27,6 +28,31 @@ class ScanScreen extends StatelessWidget {
               MaterialPageRoute(builder: (_) => const SavedRecipesScreen()),
             ),
           ),
+          IconButton(
+            icon: const Icon(Icons.logout),
+            tooltip: 'Log out',
+            onPressed: () async {
+              final confirmed = await showDialog<bool>(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: const Text('Log out?'),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context, false),
+                      child: const Text('Cancel'),
+                    ),
+                    FilledButton(
+                      onPressed: () => Navigator.pop(context, true),
+                      child: const Text('Log out'),
+                    ),
+                  ],
+                ),
+              );
+              if (confirmed == true) {
+                await AuthService.instance.signOut();
+              }
+            },
+          ),
         ],
       ),
       body: SafeArea(
@@ -35,13 +61,20 @@ class ScanScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Scan your fridge or pantry',
-                style: Theme.of(context).textTheme.headlineSmall,
-              ),
+              Builder(builder: (context) {
+                final name = AuthService.instance.currentUser?.displayName;
+                final firstName =
+                (name != null && name.trim().isNotEmpty)
+                    ? name.trim().split(' ').first
+                    : null;
+                return Text(
+                  firstName != null ? 'Hey $firstName 👋' : 'Hey there 👋',
+                  style: Theme.of(context).textTheme.headlineSmall,
+                );
+              }),
               const SizedBox(height: 4),
               Text(
-                'Snap a photo and let AI turn what you have into recipes.',
+                "What's in your kitchen today?",
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: Theme.of(context).colorScheme.onSurfaceVariant),
               ),

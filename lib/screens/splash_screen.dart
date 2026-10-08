@@ -82,10 +82,11 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
-    const backgroundColor = Color(0xFFF5F9FA);
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
 
     return Scaffold(
-      backgroundColor: backgroundColor,
+      backgroundColor: scheme.surface,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -121,16 +122,16 @@ class _SplashScreenState extends State<SplashScreen>
                 children: [
                   Text(
                     'PantrySnap',
-                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: const Color(0xFF13324A),
+                    style: theme.textTheme.headlineMedium?.copyWith(
+                      fontWeight: FontWeight.w800,
+                      color: scheme.onSurface,
                     ),
                   ),
                   const SizedBox(height: 6),
                   Text(
                     'Snap it. Cook it.',
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: const Color(0xFF13324A).withOpacity(0.6),
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: scheme.onSurfaceVariant,
                     ),
                   ),
                 ],
@@ -151,10 +152,8 @@ class _SplashScreenState extends State<SplashScreen>
                   width: 140,
                   height: 5,
                   child: LinearProgressIndicator(
-                    backgroundColor:
-                    const Color(0xFF13324A).withOpacity(0.12),
-                    valueColor: const AlwaysStoppedAnimation(
-                        Color(0xFF2E7D32)),
+                    backgroundColor: scheme.surfaceContainerHighest,
+                    valueColor: AlwaysStoppedAnimation(scheme.primary),
                   ),
                 ),
               ),
